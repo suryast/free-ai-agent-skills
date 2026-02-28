@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Polycat Skills — Architecture</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { background: #0a0f1e; color: #e2e8f0; font-family: 'SF Mono', 'Fira Code', monospace; padding: 40px; min-height: 100vh; }
+  h1 { font-size: 28px; text-align: center; margin-bottom: 8px; color: #34d399; }
+  .subtitle { text-align: center; color: #64748b; font-size: 14px; margin-bottom: 40px; }
+  
+  .diagram { max-width: 900px; margin: 0 auto; }
+  
+  .layer { margin-bottom: 24px; position: relative; }
+  .layer-label { font-size: 11px; text-transform: uppercase; letter-spacing: 2px; color: #64748b; margin-bottom: 8px; }
+  
+  .row { display: flex; gap: 12px; flex-wrap: wrap; }
+  
+  .box { 
+    flex: 1; min-width: 160px; padding: 16px; border-radius: 8px; 
+    border: 1px solid #1e293b; background: #0f172a; position: relative;
+    transition: border-color 0.2s;
+  }
+  .box:hover { border-color: #34d399; }
+  .box .icon { font-size: 20px; margin-bottom: 6px; }
+  .box .name { font-size: 14px; font-weight: 600; color: #f1f5f9; }
+  .box .desc { font-size: 11px; color: #64748b; margin-top: 4px; }
+  .box .tag { 
+    display: inline-block; font-size: 10px; padding: 2px 8px; border-radius: 4px; 
+    margin-top: 8px; font-weight: 500;
+  }
+  .tag-free { background: #064e3b; color: #34d399; }
+  .tag-paid { background: #4c1d95; color: #a78bfa; }
+  .tag-live { background: #1e3a5f; color: #60a5fa; }
+  
+  .arrow-down { 
+    text-align: center; color: #34d399; font-size: 20px; margin: 8px 0; 
+    opacity: 0.5;
+  }
+  
+  .connector { 
+    position: absolute; left: 50%; width: 2px; height: 24px; 
+    background: linear-gradient(to bottom, #34d399, transparent);
+  }
+  
+  .section { margin-top: 40px; }
+  .section h2 { font-size: 18px; color: #34d399; margin-bottom: 16px; border-bottom: 1px solid #1e293b; padding-bottom: 8px; }
+  
+  .flow { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; margin-bottom: 16px; }
+  .flow-step { 
+    padding: 8px 16px; border-radius: 6px; font-size: 12px; font-weight: 500;
+    border: 1px solid #1e293b; background: #0f172a;
+  }
+  .flow-arrow { color: #34d399; font-size: 16px; }
+  .flow-step.highlight { border-color: #34d399; background: #064e3b; }
+  
+  .stats { display: flex; gap: 24px; flex-wrap: wrap; margin-top: 32px; }
+  .stat { text-align: center; flex: 1; min-width: 120px; }
+  .stat .num { font-size: 32px; font-weight: 700; color: #34d399; }
+  .stat .label { font-size: 11px; color: #64748b; text-transform: uppercase; letter-spacing: 1px; }
+</style>
+</head>
+<body>
+
+<h1>🐱 Polycat AI Skills</h1>
+<p class="subtitle">Architecture & Distribution Overview</p>
+
+<div class="diagram">
+
+  <div class="layer">
+    <div class="layer-label">📦 Skills (Source)</div>
+    <div class="row">
+      <div class="box">
+        <div class="icon">🔧</div>
+        <div class="name">Cron Doctor</div>
+        <div class="desc">Cron failure diagnosis & triage</div>
+        <span class="tag tag-free">FREE</span>
+      </div>
+      <div class="box">
+        <div class="icon">💚</div>
+        <div class="name">Self Monitor</div>
+        <div class="desc">Infrastructure health monitoring</div>
+        <span class="tag tag-free">FREE</span>
+      </div>
+      <div class="box">
+        <div class="icon">🛡️</div>
+        <div class="name">Security Suite</div>
+        <div class="desc">PII, secrets, injection defense</div>
+        <span class="tag tag-paid">$9.90</span>
+      </div>
+      <div class="box">
+        <div class="icon">🧠</div>
+        <div class="name">Structured Memory</div>
+        <div class="desc">Three-tier memory system</div>
+        <span class="tag tag-paid">$9.90</span>
+      </div>
+      <div class="box">
+        <div class="icon">📋</div>
+        <div class="name">Planning & Execution</div>
+        <div class="desc">Systematic task planning</div>
+        <span class="tag tag-paid">$9.90</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="arrow-down">▼ ▼</div>
+
+  <div class="layer">
+    <div class="layer-label">🔀 Versions</div>
+    <div class="row">
+      <div class="box" style="flex: 1;">
+        <div class="name">OpenClaw-Specific</div>
+        <div class="desc">Uses cron, sessions, memory tools</div>
+        <span class="tag tag-live">openclaw/</span>
+      </div>
+      <div class="box" style="flex: 1;">
+        <div class="name">Generic Cross-Platform</div>
+        <div class="desc">Plain SKILL.md — no tool dependencies</div>
+        <span class="tag tag-live">generic/</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="arrow-down">▼ ▼ ▼</div>
+
+  <div class="layer">
+    <div class="layer-label">🌐 Distribution</div>
+    <div class="row">
+      <div class="box">
+        <div class="icon">🏪</div>
+        <div class="name">Gumroad</div>
+        <div class="desc">Paid downloads ($9.90 / $24.90)</div>
+        <span class="tag tag-live">✅ LIVE</span>
+      </div>
+      <div class="box">
+        <div class="icon">🤖</div>
+        <div class="name">Agent37</div>
+        <div class="desc">Try free in hosted sandbox</div>
+        <span class="tag tag-live">✅ LIVE</span>
+      </div>
+      <div class="box">
+        <div class="icon">🌍</div>
+        <div class="name">skillpacks.dev</div>
+        <div class="desc">Landing page → links to all</div>
+        <span class="tag tag-live">✅ LIVE</span>
+      </div>
+      <div class="box">
+        <div class="icon">📂</div>
+        <div class="name">GitHub</div>
+        <div class="desc">Free skills public repo</div>
+        <span class="tag tag-live">✅ LIVE</span>
+      </div>
+      <div class="box">
+        <div class="icon">🔍</div>
+        <div class="name">ClawHub / SkillsMP</div>
+        <div class="desc">Free discovery directories</div>
+        <span class="tag" style="background:#78350f;color:#fbbf24;">⏳ PENDING</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <h2>Customer Journey</h2>
+    <div class="flow">
+      <div class="flow-step">Discover on GitHub / Reddit / SkillsMP</div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-step">Try free skill on Agent37</div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-step highlight">Visit skillpacks.dev</div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-step">Buy premium on Gumroad ($9.90)</div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-step highlight">Buy bundle ($24.90)</div>
+    </div>
+  </div>
+
+  <div class="section">
+    <h2>Compatible Platforms</h2>
+    <div class="flow">
+      <div class="flow-step">Claude Code</div>
+      <div class="flow-step">Codex CLI</div>
+      <div class="flow-step">Cursor</div>
+      <div class="flow-step">Windsurf</div>
+      <div class="flow-step">OpenClaw</div>
+    </div>
+  </div>
+
+  <div class="stats">
+    <div class="stat"><div class="num">5</div><div class="label">Total Skills</div></div>
+    <div class="stat"><div class="num">2</div><div class="label">Free</div></div>
+    <div class="stat"><div class="num">3</div><div class="label">Premium</div></div>
+    <div class="stat"><div class="num">4</div><div class="label">Channels Live</div></div>
+    <div class="stat"><div class="num">5</div><div class="label">Platforms</div></div>
+  </div>
+
+</div>
+</body>
+</html>
