@@ -1,0 +1,79 @@
+# example-manifest.yaml — Cron Composer example manifest
+# Copy and adapt this for your own crons.
+#
+# Usage:
+#   python3 scripts/cron-compose.py example-manifest.yaml list
+#   python3 scripts/cron-compose.py example-manifest.yaml apply daily-health-check --dry-run
+#
+# Get cron IDs with: openclaw cron list
+
+# Optional: override blocks directory (absolute or relative to this file).
+# Default: blocks/ directory next to this manifest file.
+# blocks_dir: /home/youruser/my-blocks
+
+crons:
+
+  # ─── Example 1: Simple health check with error handling ─────────────────────
+  daily-health-check:
+    id: "00000000-0000-0000-0000-000000000001"   # Replace with real openclaw cron ID
+    blocks:
+      - env/error-handling
+      - env/workspace-context
+      - patterns/check-and-fix
+    vars:
+      WORKSPACE: /home/youruser/workspace
+      LOG_FILE: /home/youruser/workspace/logs/health-check.log
+    task: |
+      Check disk usage on the server. If any partition is above 85% full, identify the
+      largest files/directories and report them. Do not delete anything — just report.
+
+      Run: df -h
+      If usage > 85% on any partition, run: du -sh /* 2>/dev/null | sort -rh | head -20
+
+  # ─── Example 2: Git repo backup with commit ─────────────────────────────────
+  nightly-notes-backup:
+    id: "00000000-0000-0000-0000-000000000002"   # Replace with real openclaw cron ID
+    blocks:
+      - env/error-handling
+      - ops/file-backup
+      - ops/git-commit
+    vars:
+      REPO: /home/youruser/notes
+      TARGET_FILE: /home/youruser/notes/journal.md
+      GIT_NAME: Your Bot Name
+      GIT_EMAIL: your-bot@users.noreply.github.com
+      BRANCH: main
+    task: |
+      Append a nightly summary entry to journal.md in {{REPO}}.
+      Format: "## YYYY-MM-DD\n- [brief summary of today's activity]\n"
+      Read the last 7 days of git log for context: git -C {{REPO}} log --oneline -20
+      Then commit and push the updated journal.
+
+  # ─── Example 3: Log rotation / cleanup ──────────────────────────────────────
+  weekly-log-cleanup:
+    id: "00000000-0000-0000-0000-000000000003"   # Replace with real openclaw cron ID
+    blocks:
+      - env/error-handling
+      - env/workspace-context
+    vars:
+      WORKSPACE: /home/youruser/workspace
+      LOG_DIR: /home/youruser/workspace/logs
+    task: |
+      Clean up old log files in {{LOG_DIR}}.
+      Delete any .log files older than 30 days:
+        find {{LOG_DIR}} -name "*.log" -mtime +30 -delete
+      Report how many files were deleted and total space recovered.
+
+  # ─── Example 4: Check-and-fix with pattern ───────────────────────────────────
+  daily-service-monitor:
+    id: "00000000-0000-0000-0000-000000000004"   # Replace with real openclaw cron ID
+    blocks:
+      - env/error-handling
+      - patterns/check-and-fix
+    vars:
+      LOG_FILE: /home/youruser/workspace/logs/service-monitor.log
+    task: |
+      Check that the web service at http://localhost:8080/health is responding.
+      Run: curl -sf http://localhost:8080/health
+      If it fails, attempt to restart: systemctl restart my-service
+      Wait 10 seconds, then re-check. Report the outcome.
