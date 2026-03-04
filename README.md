@@ -159,6 +159,27 @@ Triggers: check before commit, secrets check, pre-commit safety, git guardian, i
 
 ---
 
+## 🧩 Cron Composer
+
+**71 cron jobs, one place to change them all.**
+
+When you're managing dozens of cron jobs with shared concerns (git identity, error handling, backup patterns), editing each prompt individually is a nightmare. Cron Composer lets you define reusable markdown blocks and assemble cron prompts from a YAML manifest. Change error handling once — it updates everywhere.
+
+**Use when:** Managing multiple cron jobs. Cross-cutting prompt changes needed. Building a cron manifest. Standardising cron job patterns across your system.
+
+```
+Triggers: cron management, compose cron, cron manifest, block composition, prompt assembly
+```
+
+### What it does
+- 🧱 Composable markdown blocks — write once, reuse across all crons
+- 📋 YAML manifest maps cron IDs → block lists + task prompts
+- 🔄 Variable substitution — `{{PROJECT}}`, `{{SITE}}`, etc.
+- 🔍 Dry-run, diff, lint, sync — full lifecycle management
+- 📊 Block usage stats and drift detection
+
+---
+
 ## Installation
 
 ### Claude Code
