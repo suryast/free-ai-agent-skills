@@ -180,6 +180,52 @@ Triggers: cron management, compose cron, cron manifest, block composition, promp
 
 ---
 
+## 🔍 Weekly Meta-Audit
+
+**Your agent audits its own operations — so you wake up to improvements, not fires.**
+
+Most agent setups accumulate invisible debt: silent cron failures, wrong assumptions in memory, manual work that should be automated, cross-project synergies nobody pursues. Weekly Meta-Audit is an 11-section structured review that surfaces all of it, every week, automatically.
+
+**Use when:** Weekly retrospectives. After a week with notable failures. When things feel "off" but you can't pinpoint why. Periodic operational health checks.
+
+```
+Triggers: weekly review, meta-audit, operations audit, what broke this week, process review, retrospective
+```
+
+### What it does
+- 🔧 **Missing automations** — what broke that should have been automated? (with build cost estimates)
+- ❌ **Wrong assumptions** — stale rules in memory/feedback that need updating
+- 🔮 **Next week forecast** — ranked by likely human priority, not agent priority
+- 🧠 **Context losses** — information lost between sessions or agents
+- 🔗 **Connections unmade** — cross-project synergies nobody is pursuing
+- ⚡ **Friction → Workflows** — recurring manual work mapped to concrete automations
+- 📝 **Auto-generates feedback entries** and appends them to your rules file
+- ✅❌ **Honest retrospective** — forward momentum vs wasted effort
+- 🏗️ **Compound system proposal** — one high-leverage tool to build next
+
+### The 11 Sections
+1. Missing Tools/Automations
+2. Wrong Assumptions
+3. Next Week Likely Needs
+4. Skills to Develop
+5. Context Losses
+6. Connections Unmade
+7. Friction → Workflows
+8. New Feedback Entries
+9. Last Week Audit (✅/❌)
+10. Generic → Specific
+11. Compound System Proposal
+
+### Recommended cron setup
+```bash
+# Runs Sunday evening — ready for Monday morning review
+openclaw cron add --name "weekly-meta-audit" --cron "0 20 * * 0" \
+  --message "Perform the weekly meta-audit skill." \
+  --model claude-sonnet-4-5 --timeout-seconds 300 --session isolated
+```
+
+---
+
 ## Installation
 
 ### Claude Code
@@ -191,6 +237,7 @@ cp -r skill-security ~/.claude/skills/skill-security
 cp -r cost-tracker ~/.claude/skills/cost-tracker
 cp -r explain-codebase ~/.claude/skills/explain-codebase
 cp -r git-guardian ~/.claude/skills/git-guardian
+cp -r weekly-meta-audit ~/.claude/skills/weekly-meta-audit
 ```
 
 ### Codex CLI / ChatGPT
@@ -200,6 +247,7 @@ cp cron-doctor/SKILL.md .codex/skills/cron-doctor.md
 cp cost-tracker/SKILL.md .codex/skills/cost-tracker.md
 cp explain-codebase/SKILL.md .codex/skills/explain-codebase.md
 cp git-guardian/SKILL.md .codex/skills/git-guardian.md
+cp weekly-meta-audit/SKILL.md .codex/skills/weekly-meta-audit.md
 ```
 
 ### OpenClaw / ClawHub
@@ -210,6 +258,7 @@ clawhub install skill-security
 clawhub install cost-tracker
 clawhub install explain-codebase
 clawhub install git-guardian
+clawhub install weekly-meta-audit
 ```
 
 ### Cursor / Windsurf
@@ -217,6 +266,7 @@ clawhub install git-guardian
 cp cost-tracker/SKILL.md .cursor/skills/cost-tracker.md
 cp explain-codebase/SKILL.md .cursor/skills/explain-codebase.md
 cp git-guardian/SKILL.md .cursor/skills/git-guardian.md
+cp weekly-meta-audit/SKILL.md .cursor/skills/weekly-meta-audit.md
 ```
 
 ---
