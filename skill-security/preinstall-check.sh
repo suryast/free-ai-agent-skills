@@ -17,28 +17,34 @@ fi
 
 SKILL_NAME=$(basename "$SKILL_PATH")
 
+# Escape skill name before using it in grep regexes.
+SKILL_NAME_RE=$(printf '%s' "$SKILL_NAME" | sed 's/[][\\.^$*+?{}|()]/\\&/g')
+
 # Check blocklist first
-if [ -f "$BLOCKLIST" ] && grep -q "^$SKILL_NAME:" "$BLOCKLIST"; then
+if [ -f "$BLOCKLIST" ] && grep -q "^$SKILL_NAME_RE:" "$BLOCKLIST"; then
     echo "⛔ BLOCKED: $SKILL_NAME is on the security blocklist"
-    grep "^$SKILL_NAME:" "$BLOCKLIST"
+    grep "^$SKILL_NAME_RE:" "$BLOCKLIST"
     echo ""
     echo "Remove from blocklist to override: $BLOCKLIST"
     exit 2
 fi
 
 # Check allowlist (skip audit if verified)
-if [ -f "$ALLOWLIST" ] && grep -q "^$SKILL_NAME:verified:" "$ALLOWLIST"; then
+if [ -f "$ALLOWLIST" ] && grep -q "^$SKILL_NAME_RE:verified:" "$ALLOWLIST"; then
     echo "✅ ALLOWED: $SKILL_NAME is on the verified allowlist"
-    grep "^$SKILL_NAME:" "$ALLOWLIST"
+    grep "^$SKILL_NAME_RE:" "$ALLOWLIST"
     exit 0
 fi
 
-# Run audit
+# Run audit. Temporarily disable errexit so non-zero audit results can be
+# handled below with the intended user-facing guidance.
 echo "🔍 Running security audit on $SKILL_NAME..."
 echo ""
 
+set +e
 "$SCRIPT_DIR/audit.sh" "$SKILL_PATH"
 result=$?
+set -e
 
 if [ $result -eq 2 ]; then
     echo ""
