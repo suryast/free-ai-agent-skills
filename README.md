@@ -25,6 +25,7 @@ Works with **Claude Code, Codex CLI, ChatGPT, Cursor, Windsurf, OpenClaw**, and 
 | 🛡️ [**Git Guardian**](#-git-guardian) | Pre-commit safety — secrets, large files, debug artifacts, merge markers | check before commit, secrets check |
 | 🧩 [**Cron Composer**](#-cron-composer) | Composable block system for managing dozens of cron prompts | cron management, compose cron |
 | 🔍 [**Weekly Meta-Audit**](#-weekly-meta-audit) | 11-section operational self-audit — find gaps, fix assumptions, reduce debt | weekly review, meta-audit, retrospective |
+| 📚 [**Daily Archivist**](#-daily-archivist) | Knowledge quality audit — fact-check memory, clean up safe issues, route findings | knowledge audit, fact check memory, archivist run |
 
 ---
 
@@ -165,6 +166,20 @@ openclaw cron add --name "weekly-meta-audit" --cron "0 20 * * 0" \
   --message "Perform the weekly meta-audit skill." \
   --model claude-sonnet-4-5 --timeout-seconds 300 --session isolated
 ```
+
+---
+
+## 📚 Daily Archivist
+
+**Audit knowledge quality daily — verify facts, fix safe cleanup, and route the rest.**
+
+Daily Archivist checks memory and knowledge files against the actual workspace, identifies stale or broken references, and leaves structured notes for the right agent when an issue needs specialist follow-up.
+
+- ✅ Runs mechanical fact checks with `scripts/verify-facts.sh`
+- 🔎 Scans recently changed memory files and inbox status
+- 🧹 Auto-fixes safe quality issues like formatting and duplicate content
+- 📬 Routes non-trivial findings to `memory/inbox/<agent>.md`
+- 💸 Keeps scheduled audits cost-conscious by limiting scan scope
 
 ---
 
