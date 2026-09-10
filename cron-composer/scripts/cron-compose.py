@@ -318,12 +318,11 @@ def cmd_sync(manifest: dict[str, Any]) -> int:
 
 def cmd_diff(blocks_dir: Path, manifest: dict[str, Any], name: str | None = None) -> int:
     crons = manifest.get("crons", {})
-    targets = [(name, crons[name])] if name else list(crons.items())
-
     if name and name not in crons:
         print(f"Error: cron '{name}' not found.", file=sys.stderr)
         return 1
 
+    targets = [(name, crons[name])] if name else list(crons.items())
     for cron_name, cron in targets:
         cron_id = cron.get("id")
         if not cron_id:
