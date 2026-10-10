@@ -29,22 +29,21 @@ UUID_RE = re.compile(
     re.IGNORECASE,
 )
 VAR_RE = re.compile(r"\{\{(\w+)\}\}")
+BLOCK_NAME_RE = re.compile(r"^[A-Za-z0-9][A-Za-z0-9_-]*(?:/[A-Za-z0-9][A-Za-z0-9_-]*)*$")
 
 
 def load_yaml(path: Path) -> dict[str, Any]:
-    """Load YAML manifest using PyYAML if available, else subprocess fallback."""
-    if yaml is not None:
-        with open(path) as f:
-            return yaml.safe_load(f)
-    result = subprocess.run(
-        ["python3", "-c",
-         f"import yaml, json; print(json.dumps(yaml.safe_load(open('{path}'))))"],
-        capture_output=True, text=True
-    )
-    if result.returncode != 0:
-        print(f"Error loading YAML: {result.stderr}", file=sys.stderr)
-        sys.exit(1)
-    return json.loads(result.stdout)
+    """Load and validate a YAML manifest."""
+    if yaml is None:
+        raise RuntimeError(
+            "PyYAML is required. Install it with: "
+            "python3 -m pip install -r cron-composer/requirements.txt"
+        )
+    with open(path, encoding="utf-8") as manifest_file:
+        manifest = yaml.safe_load(manifest_file)
+    if not isinstance(manifest, dict):
+        raise ValueError("manifest root must be a mapping")
+    return manifest
 
 
 def resolve_blocks_dir(manifest: dict[str, Any], manifest_path: Path) -> Path:
@@ -60,12 +59,25 @@ def resolve_blocks_dir(manifest: dict[str, Any], manifest_path: Path) -> Path:
     return (manifest_path.parent / "blocks").resolve()
 
 
+def resolve_block_path(blocks_dir: Path, block_name: str) -> Path:
+    """Resolve a block name without allowing traversal outside blocks_dir."""
+    if not isinstance(block_name, str) or not BLOCK_NAME_RE.fullmatch(block_name):
+        raise ValueError(f"Invalid block name: {block_name!r}")
+    root = blocks_dir.resolve()
+    block_path = (root / f"{block_name}.md").resolve()
+    try:
+        block_path.relative_to(root)
+    except ValueError as exc:
+        raise ValueError(f"Block path escapes blocks directory: {block_name!r}") from exc
+    return block_path
+
+
 def load_block(blocks_dir: Path, block_name: str) -> str:
     """Load a block file by name (e.g. 'env/error-handling')."""
-    block_path = blocks_dir / f"{block_name}.md"
+    block_path = resolve_block_path(blocks_dir, block_name)
     if not block_path.exists():
         raise FileNotFoundError(f"Block file not found: {block_path}")
-    return block_path.read_text()
+    return block_path.read_text(encoding="utf-8")
 
 
 def substitute_vars(text: str, vars_dict: dict[str, str]) -> str:
@@ -81,11 +93,8 @@ def assemble_prompt(blocks_dir: Path, cron: dict[str, Any]) -> str:
     vars_dict = cron.get("vars", {}) or {}
     task = cron.get("task", "").strip()
 
-    missing = [
-        str(blocks_dir / f"{b}.md")
-        for b in blocks
-        if not (blocks_dir / f"{b}.md").exists()
-    ]
+    block_paths = [(b, resolve_block_path(blocks_dir, b)) for b in blocks]
+    missing = [str(path) for _, path in block_paths if not path.exists()]
     if missing:
         raise FileNotFoundError("Missing block files:\n" + "\n".join(f"  {p}" for p in missing))
 
@@ -173,7 +182,7 @@ def cmd_apply(blocks_dir: Path, manifest: dict[str, Any], name: str, dry_run: bo
 
     try:
         prompt = assemble_prompt(blocks_dir, cron)
-    except FileNotFoundError as e:
+    except (FileNotFoundError, ValueError) as e:
         print(f"Error: {e}", file=sys.stderr)
         return 1
 
@@ -244,16 +253,23 @@ def cmd_lint(blocks_dir: Path, manifest: dict[str, Any]) -> int:
 
         blocks = cron.get("blocks", [])
         for block_name in blocks:
-            block_path = blocks_dir / f"{block_name}.md"
+            try:
+                block_path = resolve_block_path(blocks_dir, block_name)
+            except ValueError as exc:
+                errors.append(f"{prefix} {exc}")
+                continue
             if not block_path.exists():
                 errors.append(f"{prefix} block file missing: {block_name}.md (looked in {blocks_dir})")
 
         vars_dict = cron.get("vars", {}) or {}
         all_text = str(task) if task else ""
         for block_name in blocks:
-            block_path = blocks_dir / f"{block_name}.md"
+            try:
+                block_path = resolve_block_path(blocks_dir, block_name)
+            except ValueError:
+                continue
             if block_path.exists():
-                all_text += "\n" + block_path.read_text()
+                all_text += "\n" + block_path.read_text(encoding="utf-8")
         for var_match in VAR_RE.finditer(all_text):
             var_name = var_match.group(1)
             if var_name not in vars_dict:
@@ -330,7 +346,7 @@ def cmd_diff(blocks_dir: Path, manifest: dict[str, Any], name: str | None = None
             continue
         try:
             new_prompt = assemble_prompt(blocks_dir, cron)
-        except FileNotFoundError as e:
+        except (FileNotFoundError, ValueError) as e:
             print(f"  {cron_name}: ERROR — {e}")
             continue
         live_prompt = get_live_prompt(str(cron_id))
@@ -363,7 +379,7 @@ def cmd_stats(blocks_dir: Path, manifest: dict[str, Any]) -> int:
         try:
             prompt = assemble_prompt(blocks_dir, cron)
             prompt_lengths.append(len(prompt))
-        except FileNotFoundError:
+        except (FileNotFoundError, ValueError):
             pass
 
     avg_prompt = int(sum(prompt_lengths) / len(prompt_lengths)) if prompt_lengths else 0
@@ -414,7 +430,11 @@ def main() -> int:
         print(f"Error: manifest not found: {manifest_path}", file=sys.stderr)
         return 1
 
-    manifest = load_yaml(manifest_path)
+    try:
+        manifest = load_yaml(manifest_path)
+    except (OSError, RuntimeError, ValueError) as exc:
+        print(f"Error loading manifest: {exc}", file=sys.stderr)
+        return 1
     blocks_dir = resolve_blocks_dir(manifest, manifest_path)
     cmd = args[1]
     rest = args[2:]
