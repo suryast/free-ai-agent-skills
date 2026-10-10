@@ -1,0 +1,7 @@
+{
+  "expected_revision": "synthetic-release-1",
+  "pages": [
+    {"path": "/", "file": "index.html", "canonical": "https://example.com/", "needles": ["Release ready"]}
+  ],
+  "assets": [{"path": "/app.css", "file": "app.css"}]
+}

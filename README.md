@@ -5,7 +5,7 @@
 [![SKILL.md](https://img.shields.io/badge/SKILL.md-standard-orange)](https://docs.anthropic.com/en/docs/claude-code/skills)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
-Battle-tested `SKILL.md` files for AI coding agents. Built from running **8 specialist agents 24/7 in production** — these skills solve real problems we hit daily.
+**12 complete skill packages** for AI coding agents: nine original operational skills and three portable, fixture-tested additions. The original collection grew from running **8 specialist agents 24/7 in production**; the new examples are synthetic rehearsals, not claims of live deployment or agent integration.
 
 Designed for agents that support the open Agent Skills format. Package discovery and runtime tools vary by agent; see Installation and each skill's compatibility requirements.
 
@@ -26,6 +26,9 @@ Designed for agents that support the open Agent Skills format. Package discovery
 | 🧩 [**Cron Composer**](#-cron-composer) | Composable block system for managing dozens of cron prompts | cron management, compose cron |
 | 🔍 [**Weekly Meta-Audit**](#-weekly-meta-audit) | 11-section operational self-audit — find gaps, fix assumptions, reduce debt | weekly review, meta-audit, retrospective |
 | 📚 [**Daily Archivist**](#-daily-archivist) | Knowledge quality audit — fact-check memory, clean up safe issues, route findings | knowledge audit, fact check memory, archivist run |
+| [**Static-site Release Verification**](static-site-release-verification/SKILL.md) | Source/build/deployed-revision contract, clean URL checks and asset/CDN parity | static release, stale production, CDN freshness |
+| [**Approval-blocked Maintenance Loops**](approval-blocked-maintenance-loops/SKILL.md) | Consent checkpoints, bounded retries, unknown-outcome reconciliation | approval timeout, repeated prompts, blocked loop |
+| [**Narrated Motion Explainers**](narrated-motion-explainers/SKILL.md) | Reproducible Pillow → FFmpeg motion, captions, optional narration and real MP4 verification | animated explainer, narrated process video |
 
 ---
 
@@ -175,11 +178,45 @@ openclaw cron add --name "weekly-meta-audit" --cron "0 20 * * 0" \
 
 Daily Archivist checks memory and knowledge files against the actual workspace, identifies stale or broken references, and leaves structured notes for the right agent when an issue needs specialist follow-up.
 
-- ✅ Runs mechanical fact checks with `scripts/verify-facts.sh`
+- ✅ Runs mechanical fact checks with [verify-facts.sh](daily-archivist/scripts/verify-facts.sh)
 - 🔎 Scans recently changed memory files and inbox status
 - 🧹 Auto-fixes safe quality issues like formatting and duplicate content
 - 📬 Routes non-trivial findings to `memory/inbox/<agent>.md`
 - 💸 Keeps scheduled audits cost-conscious by limiting scan scope
+
+---
+
+## Portable Examples and Requirements
+
+The three new workflows are runtime-neutral; their support scripts use ordinary local tools:
+
+| Package | Requirements | Tested example / boundary |
+|---------|--------------|---------------------------|
+| Static-site Release Verification | Python 3.11+; explicitly scoped HTTP(S) access | Loopback fixture proves clean URL/content/canonical checks, stale asset rejection, revision mismatch, redirects and byte/request limits; never deploys or purges |
+| Approval-blocked Maintenance Loops | Python 3.11+ for the optional example; actual consent comes from your runtime | Synthetic state table holds denied/expired wakeups, bounds attempts and reconciles unknown outcomes; never executes actions or grants approval |
+| Narrated Motion Explainers | Python 3.11+, pinned Pillow dependency, FFmpeg/ffprobe with libx264 and AAC | Real six-second MP4, captions and generated tone; full decode, codec/duration assertions and per-chapter motion checks. Tone is **not voiceover**; spoken narration is optional local input |
+
+The older host-monitoring/scheduler packages are not universally portable: Linux service and shell commands need their documented host utilities; OpenClaw scheduling examples need OpenClaw. Format compatibility alone does not supply tools or consent. Use each package's `compatibility` field and inspect commands before use.
+
+Run the non-mutating decision example:
+
+```bash
+python3 approval-blocked-maintenance-loops/scripts/decide.py \
+  approval-blocked-maintenance-loops/assets/checkpoint.json
+# hold: expired approval
+```
+
+Render and verify the real motion sample (output directory must not already exist):
+
+```bash
+python3 -m venv .motion-venv
+.motion-venv/bin/python -m pip install -r narrated-motion-explainers/requirements.txt
+# Install FFmpeg and ffprobe separately on your host.
+.motion-venv/bin/python narrated-motion-explainers/scripts/render.py --output-dir motion-output
+.motion-venv/bin/python narrated-motion-explainers/scripts/verify_video.py motion-output
+```
+
+The output includes `sample.mp4`, audio, `captions.srt`, `chapters.json`, render metadata, decoded inspection frames and verification evidence. No generated video, font binaries or virtualenv is shipped. On Windows, use `.motion-venv\Scripts\python.exe`. See each skill for scoped release-manifest usage, optional narration, and limitations.
 
 ---
 
@@ -201,13 +238,16 @@ These packages use the [Agent Skills format](https://agentskills.io/specificatio
 
 ## Format and Validation
 
-All nine public identifiers and existing supporting files are retained. Custom `author`, `version`, and `tags` values live under `metadata` as strings. Additional files such as `README.md` and `blocks/` are permitted by the specification; emojis and gerund names are not required.
+All 12 package entry points are validated; the original nine identifiers and supporting files are retained. Custom `author`, `version`, and `tags` values live under `metadata` as strings. Additional files such as `README.md` and `blocks/` are permitted by the specification; emojis and gerund names are not required.
 
 ```bash
 python3 -m venv .venv
 .venv/bin/python -m pip install -r requirements-dev.txt
+# Optional locally; CI installs these and FFmpeg so video tests cannot skip.
+.venv/bin/python -m pip install -r narrated-motion-explainers/requirements.txt
 .venv/bin/python scripts/validate_skills.py
 .venv/bin/python -m unittest discover -s tests -v
+.venv/bin/python -m unittest discover -s cron-composer/tests -v
 ```
 
 See [CONTRIBUTING.md](CONTRIBUTING.md) for validation scope, the optional reference-validator check, and runtime-test limitations.

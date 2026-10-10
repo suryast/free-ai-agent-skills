@@ -1,0 +1,14 @@
+{
+  "operation_id": "synthetic-render-1",
+  "target": "local demonstration output",
+  "action": "render one demonstration",
+  "exclusions": ["network", "deployment", "service changes"],
+  "state": "expired",
+  "completed_deliverables": ["reviewed sample brief"],
+  "last_evidence": "approval prompt closed without consent",
+  "verification": "decode output and inspect metadata",
+  "retry_count": 0,
+  "retry_budget": 1,
+  "decision_requested": true,
+  "resume_event": "explicit scoped approval through runtime interface"
+}

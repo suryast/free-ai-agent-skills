@@ -1,0 +1,10 @@
+{
+  "title": "A packet's journey",
+  "brief": "Explain how a packet moves through three processing stages.",
+  "rights": "Fresh synthetic example; no third-party media or factual source excerpts.",
+  "chapters": [
+    {"label": "Receive", "caption": "Receive the packet at the first stage.", "seconds": 2},
+    {"label": "Process", "caption": "Process the packet at the middle stage.", "seconds": 2},
+    {"label": "Deliver", "caption": "Deliver the packet to its destination.", "seconds": 2}
+  ]
+}
