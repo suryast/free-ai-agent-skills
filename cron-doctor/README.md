@@ -8,7 +8,7 @@ Perfect for anyone running background jobs, scheduled backups, or automated work
 
 ## Platform Support
 
-**Works on:** Claude Code, Codex CLI, Cursor, Windsurf, and any SKILL.md-compatible agent.
+Uses the Agent Skills package format. Host commands require the environment and permissions described in `SKILL.md`; format support alone does not guarantee runtime portability.
 
 **Enhanced features available on some platforms:**
 - Managed cron system with built-in state tracking

@@ -136,9 +136,9 @@ crons:
 ## Requirements
 
 - Python 3.10+
-- `pyyaml` (optional; falls back to subprocess if missing)
+- PyYAML (required; the subprocess fallback also imports PyYAML)
 - `openclaw` CLI in PATH (for `apply`, `sync`, `diff`)
 
 ## License
 
-MIT — see [LICENSE](LICENSE).
+MIT — see [LICENSE](../LICENSE).

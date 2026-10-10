@@ -7,7 +7,7 @@
 
 Battle-tested `SKILL.md` files for AI coding agents. Built from running **8 specialist agents 24/7 in production** — these skills solve real problems we hit daily.
 
-Works with **Claude Code, Codex CLI, ChatGPT, Cursor, Windsurf, OpenClaw**, and any agent that supports the open `SKILL.md` standard.
+Designed for agents that support the open Agent Skills format. Package discovery and runtime tools vary by agent; see Installation and each skill's compatibility requirements.
 
 🔗 **[skillpacks.dev](https://skillpacks.dev)** · **[GitHub](https://github.com/suryast/free-ai-agent-skills)** · ☕ **[Ko-fi](https://ko-fi.com/srvzt)**
 
@@ -71,7 +71,7 @@ Analyses `SKILL.md` files and their scripts for credential harvesting, code inje
 **Scripts included:**
 ```bash
 ./skill-security/audit.sh /path/to/skill          # Audit a single skill
-./skill-security/audit-all.sh /path/to/skills/     # Audit all installed skills
+./skill-security/audit-all.sh                     # Scan OpenClaw built-ins and ~/skills
 ./skill-security/preinstall-check.sh /path/to/new  # Quick pre-install check
 ```
 
@@ -185,31 +185,32 @@ Daily Archivist checks memory and knowledge files against the actual workspace, 
 
 ## Installation
 
-### Claude Code
+Install the **complete directory**, keeping `SKILL.md` at the package root and preserving all scripts, blocks, and supporting files. Do not rename it to a standalone `<skill>.md` file: that loses package discovery and resources.
+
+From a clone of this repository, choose the skills directory documented by your agent:
+
 ```bash
-cp -r cron-doctor ~/.claude/skills/cron-doctor
-cp -r self-monitor ~/.claude/skills/self-monitor
-cp -r weekly-meta-audit ~/.claude/skills/weekly-meta-audit
-# ... same pattern for any skill
+# Replace this example destination with your agent's documented skills directory.
+SKILLS_DIR="/path/to/agent/skills"
+mkdir -p "$SKILLS_DIR"
+cp -R cron-doctor "$SKILLS_DIR/cron-doctor"
+# Repeat for another package; copy the entire package, not only SKILL.md.
 ```
 
-### Codex CLI / ChatGPT
+These packages use the [Agent Skills format](https://agentskills.io/specification). Format support does not imply runtime portability: Linux commands need a suitable host, and OpenClaw scheduler commands are not Hermes commands. Check each package's `compatibility` field and use your runtime's documented scheduling interfaces.
+
+## Format and Validation
+
+All nine public identifiers and existing supporting files are retained. Custom `author`, `version`, and `tags` values live under `metadata` as strings. Additional files such as `README.md` and `blocks/` are permitted by the specification; emojis and gerund names are not required.
+
 ```bash
-cp cron-doctor/SKILL.md .codex/skills/cron-doctor.md
-cp weekly-meta-audit/SKILL.md .codex/skills/weekly-meta-audit.md
+python3 -m venv .venv
+.venv/bin/python -m pip install -r requirements-dev.txt
+.venv/bin/python scripts/validate_skills.py
+.venv/bin/python -m unittest discover -s tests -v
 ```
 
-### OpenClaw
-```bash
-clawhub install cron-doctor
-clawhub install weekly-meta-audit
-```
-
-### Cursor / Windsurf
-```bash
-cp weekly-meta-audit/SKILL.md .cursor/skills/weekly-meta-audit.md
-```
-
+See [CONTRIBUTING.md](CONTRIBUTING.md) for validation scope, the optional reference-validator check, and runtime-test limitations.
 ---
 
 ## Premium Skills
