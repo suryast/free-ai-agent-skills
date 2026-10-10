@@ -1,16 +1,16 @@
 ---
 name: cost-tracker
-version: 1.0.0
-author: Polycat
-tags: [cost, tokens, budget, llm, monitoring, api]
+description: "Track LLM API spend per session and task. Estimate token usage across providers. Warn before you blow your budget. Use when estimating task cost, checking token usage, or setting a session budget."
 license: MIT
-platform: universal
-description: Track LLM API spend per session and task. Estimate token usage across providers. Warn before you blow your budget.
+metadata:
+  author: "Polycat"
+  version: "1.0.0"
+  tags: "cost, tokens, budget, llm, monitoring, api"
 ---
 
 # 💰 Cost Tracker
 
-> **Compatible with Claude Code, Codex CLI, Cursor, Windsurf, and any SKILL.md-compatible agent.**
+> Uses the Agent Skills package format. Execution depends on the host tools and permissions; consult the frontmatter compatibility requirements where provided.
 
 Track what your AI sessions actually cost. Estimate token usage, cumulative spend, and warn you before you hit budget thresholds — across OpenAI, Anthropic, Google, and other major providers.
 

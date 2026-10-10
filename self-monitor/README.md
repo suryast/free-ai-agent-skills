@@ -8,7 +8,7 @@ Run it on heartbeats or schedule it — either way, you'll always know when some
 
 ## Platform Support
 
-**Works on:** Claude Code, Codex CLI, Cursor, Windsurf, and any SKILL.md-compatible agent.
+Uses the Agent Skills package format. Host commands require the environment and permissions described in `SKILL.md`; format support alone does not guarantee runtime portability.
 
 **Enhanced features available on some platforms:**
 - Token and context window tracking across sessions

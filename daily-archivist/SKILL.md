@@ -1,18 +1,15 @@
 ---
 name: daily-archivist
-version: 1.0.0
-author: Polycat
-tags: [knowledge-management, quality, coordination, memory]
+description: "Daily knowledge quality audit and inter-agent coordination. Fact-checks memory files, fills knowledge gaps, cleans up quality issues, and routes findings to other agents via an inbox system. Triggers on: knowledge audit, fact check memory, clean up memory, archivist run, inbox check, memory quality."
 license: MIT
-platform: universal
-description: >
-  Daily knowledge quality audit and inter-agent coordination. Fact-checks memory files,
-  fills knowledge gaps, cleans up quality issues, and routes findings to other agents via
-  an inbox system. Triggers on: knowledge audit, fact check memory, clean up memory,
-  archivist run, inbox check, memory quality.
+compatibility: "Requires Bash, Python 3, GNU command-line utilities, and a workspace with memory files. Git is optional. Included scripts need workspace-specific configuration; scheduling examples require OpenClaw."
+metadata:
+  author: "Polycat"
+  version: "1.0.0"
+  tags: "knowledge-management, quality, coordination, memory"
 ---
 
-> **Compatible with Claude Code, Codex CLI, Cursor, Windsurf, and any SKILL.md-compatible agent.**
+> Uses the Agent Skills package format. Execution depends on the host tools and permissions; consult the frontmatter compatibility requirements where provided.
 
 # Daily Archivist
 
@@ -55,7 +52,7 @@ Add this to your `AGENTS.md` or equivalent configuration:
 
 ### 3. Configure the verification script
 
-Copy `scripts/verify-facts.sh` and customize the checks for your project. See comments in the script for examples.
+Copy [scripts/verify-facts.sh](scripts/verify-facts.sh) and customize the checks for your project. See comments in the script for examples.
 
 ### 4. Schedule the cron
 
@@ -156,7 +153,7 @@ bash scripts/verify-facts.sh
 
 ## Scan Changes Script
 
-The included `scripts/scan-changes.sh` lists recently modified memory files and inbox status:
+The included [scripts/scan-changes.sh](scripts/scan-changes.sh) lists recently modified memory files and inbox status:
 
 ```bash
 bash scripts/scan-changes.sh
