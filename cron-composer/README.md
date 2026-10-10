@@ -21,6 +21,7 @@ Copy this skill directory into your OpenClaw skills folder:
 
 ```bash
 cp -r cron-composer ~/.openclaw/workspace/skills/
+python3 -m pip install -r ~/.openclaw/workspace/skills/cron-composer/requirements.txt
 ```
 
 Or clone the repo:
@@ -28,6 +29,7 @@ Or clone the repo:
 ```bash
 git clone https://github.com/suryast/openclaw-cron-composer
 cp -r openclaw-cron-composer ~/.openclaw/workspace/skills/cron-composer
+python3 -m pip install -r ~/.openclaw/workspace/skills/cron-composer/requirements.txt
 ```
 
 ## Quick Start

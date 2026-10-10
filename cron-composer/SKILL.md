@@ -21,6 +21,7 @@ Composable block system for OpenClaw cron job prompts. Define reusable blocks on
 ```bash
 # Install: copy skill to your skills directory (already done if you're reading this)
 SKILL_DIR="$HOME/.openclaw/workspace/skills/cron-composer"
+python3 -m pip install -r "$SKILL_DIR/requirements.txt"
 
 # List all crons in manifest
 python3 "$SKILL_DIR/scripts/cron-compose.py" "$SKILL_DIR/example-manifest.yaml" list
