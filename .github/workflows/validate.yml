@@ -14,9 +14,15 @@ jobs:
         with:
           python-version: '3.11'
           cache: pip
-          cache-dependency-path: requirements-dev.txt
-      - name: Install validation dependency
-        run: python -m pip install -r requirements-dev.txt
+          cache-dependency-path: |
+            requirements-dev.txt
+            narrated-motion-explainers/requirements.txt
+      - name: Install validation and optional motion dependencies
+        run: |
+          python -m pip install -r requirements-dev.txt -r narrated-motion-explainers/requirements.txt
+          sudo apt-get update
+          sudo apt-get install -y ffmpeg
+          python -c "import PIL; import shutil; assert shutil.which('ffmpeg') and shutil.which('ffprobe')"
       - name: Validate every package
         run: python scripts/validate_skills.py
       - name: Run format regressions and offline script smoke tests

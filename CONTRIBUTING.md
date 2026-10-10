@@ -47,6 +47,20 @@ PY
 
 This revision validated all nine packages during the format migration. It accepts some cases the repository deliberately rejects (for example lowercase `skill.md`); it is an additional check, not a substitute for the repository's type/link tests. The upstream dependency is optional and is not fetched by CI.
 
+## Portable support-example coverage
+
+The inventory is now 12 packages. The three new support packages are independent rewrites of generic workflow principles, not exports of runtime configuration or private project histories. Existing MIT license/attribution remains unchanged; no third-party media or font files are bundled.
+
+`tests/test_portable_examples.py` adds 23 tests, including a dynamic README inventory/catalog/link check:
+
+- Release checker: real loopback HTTP fixtures for clean URL/content/canonical and asset parity, revision evidence, stale CSS, HTTP errors/redirects, response limits and rejection of local/path/request-budget escapes before network access.
+- Consent example: all checkpoint states, denied/expired scheduled wakeups, explicit scoped resume, retry exhaustion, unknown outcome reconciliation and read-back. This is a pure decision table, not a trusted authorization service or action executor.
+- Motion sample: caption timing, deterministic scene motion and text width, duration/input bounds, real H.264/AAC render plus full decode/probe and subject-motion checks, overwrite refusal, optional local-audio input and narration-duration mismatch. Audio-input tests use a synthetic tone fixture, not spoken narration.
+
+Install `narrated-motion-explainers/requirements.txt` and FFmpeg/ffprobe to run motion tests; they explicitly skip locally when unavailable. CI installs both and checks prerequisites before the suite, so all 41 tests run. Python 3.11 is the CI target; local verification can use a newer compatible Python. FFmpeg builds must include libx264 and AAC. No real deployments, schedules, approvals or external TTS calls occur.
+
+The release checker takes observed revision as operator-supplied evidence: it cannot attest hosting provenance, crawl every route, or prove all CDN edges. Motion checks do not prove speech alignment, audio quality, accessibility or layout at arbitrary custom text/font settings. Review decoded frames and listen to any narrated final output.
+
 ## Script-test scope and remaining limitations
 
 The smoke suite syntax-checks every bundled Bash/Python script and exercises:
