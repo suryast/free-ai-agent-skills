@@ -247,6 +247,7 @@ python3 -m venv .venv
 .venv/bin/python -m pip install -r narrated-motion-explainers/requirements.txt
 .venv/bin/python scripts/validate_skills.py
 .venv/bin/python -m unittest discover -s tests -v
+.venv/bin/python -m unittest discover -s cron-composer/tests -v
 ```
 
 See [CONTRIBUTING.md](CONTRIBUTING.md) for validation scope, the optional reference-validator check, and runtime-test limitations.

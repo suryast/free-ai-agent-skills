@@ -27,3 +27,5 @@ jobs:
         run: python scripts/validate_skills.py
       - name: Run format regressions and offline script smoke tests
         run: python -m unittest discover -s tests -v
+      - name: Run inherited Cron Composer regressions
+        run: python -m unittest discover -s cron-composer/tests -v

@@ -17,6 +17,7 @@ python3 -m venv .venv
 .venv/bin/python -m pip install -r requirements-dev.txt
 .venv/bin/python scripts/validate_skills.py
 .venv/bin/python -m unittest discover -s tests -v
+.venv/bin/python -m unittest discover -s cron-composer/tests -v
 git diff --check
 ```
 
@@ -57,7 +58,7 @@ The inventory is now 12 packages. The three new support packages are independent
 - Consent example: all checkpoint states, denied/expired scheduled wakeups, explicit scoped resume, retry exhaustion, unknown outcome reconciliation and read-back. This is a pure decision table, not a trusted authorization service or action executor.
 - Motion sample: caption timing, deterministic scene motion and text width, duration/input bounds, real H.264/AAC render plus full decode/probe and subject-motion checks, overwrite refusal, optional local-audio input and narration-duration mismatch. Audio-input tests use a synthetic tone fixture, not spoken narration.
 
-Install `narrated-motion-explainers/requirements.txt` and FFmpeg/ffprobe to run motion tests; they explicitly skip locally when unavailable. CI installs both and checks prerequisites before the suite, so all 41 tests run. Python 3.11 is the CI target; local verification can use a newer compatible Python. FFmpeg builds must include libx264 and AAC. No real deployments, schedules, approvals or external TTS calls occur.
+Install `narrated-motion-explainers/requirements.txt` and FFmpeg/ffprobe to run motion tests; they explicitly skip locally when unavailable. CI installs both and checks prerequisites before the suite, so all 41 root tests run, followed by the five inherited Cron Composer regressions (46 total). Python 3.11 is the CI target; local verification can use a newer compatible Python. FFmpeg builds must include libx264 and AAC. No real deployments, schedules, approvals or external TTS calls occur.
 
 The release checker takes observed revision as operator-supplied evidence: it cannot attest hosting provenance, crawl every route, or prove all CDN edges. Motion checks do not prove speech alignment, audio quality, accessibility or layout at arbitrary custom text/font settings. Review decoded frames and listen to any narrated final output.
 
