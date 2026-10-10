@@ -1,18 +1,15 @@
 ---
 name: self-monitor
-version: 1.1.0
-author: Polycat
-tags: [monitoring, health, infrastructure]
+description: "Proactive self-monitoring of infrastructure, services, and health. Tracks disk/memory/load, service health, cron job status, recent errors. Auto-fixes safe issues. Triggers on: health check, heartbeat, monitor status, service status, infrastructure check."
 license: MIT
-platform: universal
-description: >
-  Proactive self-monitoring of infrastructure, services, and health. Tracks
-  disk/memory/load, service health, cron job status, recent errors. Auto-fixes safe
-  issues. Triggers on: health check, heartbeat, monitor status, service status,
-  infrastructure check.
+compatibility: "Requires shell access to the monitored Linux host and GNU utilities. systemd, Docker, jq, and Tailscale examples apply only when installed. Cleanup and restarts require authorization."
+metadata:
+  author: "Polycat"
+  version: "1.1.0"
+  tags: "monitoring, health, infrastructure"
 ---
 
-> **Compatible with Claude Code, Codex CLI, Cursor, Windsurf, and any SKILL.md-compatible agent.**
+> Uses the Agent Skills package format. Execution depends on the host tools and permissions; consult the frontmatter compatibility requirements where provided.
 
 # Self Monitor
 

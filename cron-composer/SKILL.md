@@ -1,11 +1,8 @@
 ---
 name: cron-composer
-description: >
-  Composable block system for OpenClaw cron job prompts. Assembles cron prompts from reusable
-  markdown blocks so cross-cutting changes (e.g. git identity, error handling) only need updating
-  in one place. Use when managing multiple cron jobs, authoring a cron manifest, composing blocks
-  into prompts, running cron-compose.py, or asking about cron prompt assembly, block composition,
-  manifest format, or `apply`/`lint`/`diff`/`sync`/`stats` commands.
+description: "Composable block system for OpenClaw cron job prompts. Assembles cron prompts from reusable markdown blocks so cross-cutting changes (e.g. git identity, error handling) only need updating in one place. Use when managing multiple cron jobs, authoring a cron manifest, composing blocks into prompts, running cron-compose.py, or asking about cron prompt assembly, block composition, manifest format, or `apply`/`lint`/`diff`/`sync`/`stats` commands."
+license: MIT
+compatibility: "Requires Python 3.10+ and PyYAML. Live apply, diff, and sync require the OpenClaw CLI; offline list, lint, stats, and dry-run do not. OpenClaw commands are not Hermes commands."
 ---
 
 # Cron Composer
@@ -19,8 +16,8 @@ Composable block system for OpenClaw cron job prompts. Define reusable blocks on
 ## Quick Start
 
 ```bash
-# Install: copy skill to your skills directory (already done if you're reading this)
-SKILL_DIR="$HOME/.openclaw/workspace/skills/cron-composer"
+# Set this to the actual installed package directory; do not assume the workspace.
+SKILL_DIR="/path/to/skills/cron-composer"
 python3 -m pip install -r "$SKILL_DIR/requirements.txt"
 
 # List all crons in manifest
@@ -105,4 +102,4 @@ The assembler resolves blocks relative to `blocks_dir` in the manifest. You can:
 
 ## Example
 
-See `example-manifest.yaml` and `blocks/` in this skill directory for working examples.
+See [the example manifest](example-manifest.yaml), [the assembler](scripts/cron-compose.py), and [the blocks directory](blocks/) for working examples.

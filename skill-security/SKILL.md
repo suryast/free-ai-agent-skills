@@ -1,24 +1,30 @@
 ---
 name: skill-security
-description: >
-  Security audit tool for AI agent skills. Scans for credential harvesting, code injection,
-  network exfiltration, obfuscation. ALWAYS run before installing any new skill from external
-  sources. Triggers on: new skill installation, skill audit, security scan, skill review,
-  before loading external skill.
+description: "Security audit tool for AI agent skills. Scans for credential harvesting, code injection, network exfiltration, obfuscation. ALWAYS run before installing any new skill from external sources. Triggers on: new skill installation, skill audit, security scan, skill review, before loading external skill."
+license: MIT
+compatibility: "Requires Bash and standard Unix utilities. audit-all.sh discovers OpenClaw built-in skills and ~/skills; it does not accept a target-directory argument. audit.sh and preinstall-check.sh accept a skill path."
 ---
 
 # Skill Security Scanner
 
 Security audit tool for AI agent skills. **Run before installing any new skill.**
 
+## Bundled Resources
+
+Run from this skill directory (resolve it from the installed package, not the workspace).
+
+- [audit.sh](audit.sh) — scan one skill; critical findings append to this package's [blocklist.txt](blocklist.txt).
+- [audit-all.sh](audit-all.sh) — scan OpenClaw built-in skills and `~/skills`; no directory argument.
+- [preinstall-check.sh](preinstall-check.sh) — check the [allowlist.txt](allowlist.txt) and blocklist before auditing.
+
 ## Quick Audit
 
 ```bash
 # Audit a skill directory
-./skill-security/audit.sh /path/to/skill
+./audit.sh /path/to/skill
 
 # Audit all installed skills
-./skill-security/audit-all.sh
+./audit-all.sh
 ```
 
 ## What It Checks
@@ -57,7 +63,7 @@ Add this to your workflow:
 ## Skill Installation Protocol
 
 Before loading any new skill:
-1. Run `./skill-security/audit.sh <skill-path>`
+1. Run `./audit.sh <skill-path>`
 2. If CRITICAL/HIGH findings → STOP, alert the user
 3. If MEDIUM findings → Review manually, proceed if justified
 4. If CLEAN → Safe to use

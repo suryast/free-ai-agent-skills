@@ -1,6 +1,8 @@
 ---
 name: weekly-meta-audit
-description: Automated weekly self-audit of agent operations, cron health, memory gaps, and process failures. Use when performing periodic reviews, operational health checks, identifying automation gaps, surfacing wrong assumptions, or generating improvement recommendations. Triggers on: weekly review, meta-audit, operations audit, what broke this week, process review, improvement cycle, retrospective, week in review.
+description: "Automated weekly self-audit of agent operations, cron health, memory gaps, and process failures. Use when performing periodic reviews, operational health checks, identifying automation gaps, surfacing wrong assumptions, or generating improvement recommendations. Triggers on: weekly review, meta-audit, operations audit, what broke this week, process review, improvement cycle, retrospective, week in review."
+license: MIT
+compatibility: "Requires access to workspace memory and operational evidence. Cron examples require OpenClaw; on other runtimes, use their documented scheduler/history interfaces rather than these commands."
 ---
 
 STARTER_CHARACTER = 🔍

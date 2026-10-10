@@ -1,18 +1,15 @@
 ---
 name: cron-doctor
-version: 1.1.0
-author: Polycat
-tags: [cron, monitoring, diagnosis]
+description: "Diagnose and triage cron job failures. Checks job states, identifies error patterns, prioritizes by criticality, generates health reports. Triggers on: cron failures, job health check, scheduled task errors, cron diagnosis, job not running, backup failed."
 license: MIT
-platform: universal
-description: >
-  Diagnose and triage cron job failures. Checks job states, identifies error
-  patterns, prioritizes by criticality, generates health reports. Triggers on: cron
-  failures, job health check, scheduled task errors, cron diagnosis, job not running,
-  backup failed.
+compatibility: "Requires shell access to the target host and cron logs. Examples target Linux cron/systemd and macOS cron; select commands for the actual scheduler and permissions."
+metadata:
+  author: "Polycat"
+  version: "1.1.0"
+  tags: "cron, monitoring, diagnosis"
 ---
 
-> **Compatible with Claude Code, Codex CLI, Cursor, Windsurf, and any SKILL.md-compatible agent.**
+> Uses the Agent Skills package format. Execution depends on the host tools and permissions; consult the frontmatter compatibility requirements where provided.
 
 # Cron Doctor
 

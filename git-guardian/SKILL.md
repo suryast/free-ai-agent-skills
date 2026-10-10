@@ -1,16 +1,17 @@
 ---
 name: git-guardian
-version: 1.0.0
-author: Polycat
-tags: [git, security, secrets, pre-commit, safety, devops]
+description: "Pre-commit safety checks for AI-assisted development. Detects secrets, large files, merge conflict markers, sensitive files, and common AI-coding mistakes before they hit your repo. Use before committing or pushing AI-generated changes, auditing staged files, or installing a pre-commit safety hook."
 license: MIT
-platform: universal
-description: Pre-commit safety checks for AI-assisted development. Detects secrets, large files, merge conflict markers, sensitive files, and common AI-coding mistakes before they hit your repo.
+compatibility: "Requires Git and Bash with standard Unix utilities. Run against the intended repository; hook installation changes that repository only with authorization."
+metadata:
+  author: "Polycat"
+  version: "1.0.0"
+  tags: "git, security, secrets, pre-commit, safety, devops"
 ---
 
 # 🛡️ Git Guardian
 
-> **Compatible with Claude Code, Codex CLI, Cursor, Windsurf, and any SKILL.md-compatible agent.**
+> Uses the Agent Skills package format. Execution depends on the host tools and permissions; consult the frontmatter compatibility requirements where provided.
 
 Pre-commit safety checks built for AI-assisted development. AI agents generate code fast — sometimes too fast. Git Guardian catches secrets, sensitive files, merge conflicts, and common AI mistakes before they land in your history.
 

@@ -1,16 +1,17 @@
 ---
 name: explain-codebase
-version: 1.0.0
-author: Polycat
-tags: [codebase, architecture, onboarding, documentation, analysis]
+description: "Drop into any repo and generate a structured architecture overview. Maps the codebase, identifies entry points, frameworks, and dependencies — then produces a \"start here\" guide for new contributors. Use when onboarding to an unfamiliar repository or requesting a codebase or architecture overview."
 license: MIT
-platform: universal
-description: Drop into any repo and generate a structured architecture overview. Maps the codebase, identifies entry points, frameworks, and dependencies — then produces a "start here" guide for new contributors.
+compatibility: "Requires read access to the repository and a shell with standard Unix utilities; Git and language-specific tools are needed only for relevant checks."
+metadata:
+  author: "Polycat"
+  version: "1.0.0"
+  tags: "codebase, architecture, onboarding, documentation, analysis"
 ---
 
 # 🗺️ Explain Codebase
 
-> **Compatible with Claude Code, Codex CLI, Cursor, Windsurf, and any SKILL.md-compatible agent.**
+> Uses the Agent Skills package format. Execution depends on the host tools and permissions; consult the frontmatter compatibility requirements where provided.
 
 Drop into any unfamiliar repository and generate a complete architectural overview in minutes. Maps directory structure, identifies entry points and frameworks, explains dependencies, and produces a contributor-ready "start here" guide.
 
